@@ -8,6 +8,9 @@
 
 ArrayList<Player> players = new ArrayList<Player>();
 boolean[] keys = new boolean[526];
+final int WIDTH = 30;
+final int HEIGHT = 31;
+int[][] level = new int[HEIGHT][WIDTH];
 
 void setup()
 {
@@ -79,7 +82,31 @@ void setUpPlayerControllers()
             , playerXML);
     int x = (i + 1) * gap;
     p.pos.x = x;
-    p.pos.y = 300;
-   players.add(p);         
+    p.pos.y = 300-50;
+     players.add(p);         
   }
+}
+
+void drawLevel() {
+  fill(0);
+  noStroke();
+  for ( int ix = 0; ix < WIDTH; ix++ ) {
+    for ( int iy = 0; iy < HEIGHT; iy++ ) {
+      switch(level[iy][ix]) {
+        case 1: rect(ix*16,iy*16,16,16);
+      }
+    }
+  }
+}
+
+boolean place_free(int xx, int yy){
+//checks if a given point (xx,yy) is free (no block at that point) or not
+  yy = int(floor(yy/16.0));
+  xx = int(floor(xx/16.0));
+  if ( xx > -1 && xx < level[0].length && yy > -1 && yy < level.length ) {
+    if ( level[yy][xx] == 0 ) {
+      return true;
+    }
+  }
+  return false;
 }
