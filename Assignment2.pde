@@ -9,12 +9,12 @@
 ArrayList<Player> players = new ArrayList<Player>();
 boolean[] keys = new boolean[526];
 final int WIDTH = 30;
-final int HEIGHT = 31;
+final int HEIGHT = 30;
 int[][] level = new int[HEIGHT][WIDTH];
 
 void setup()
 {
-  size(500, 500);
+  size(480, 480);
   setUpPlayerControllers();
 }
 
@@ -27,6 +27,7 @@ void draw()
     player.update();
     player.display();
   }
+  drawLevel();
 }
 
 void keyPressed()
@@ -85,10 +86,26 @@ void setUpPlayerControllers()
     p.pos.y = 300-50;
      players.add(p);         
   }
+  
+  boolean col;
+  for ( int ix = 0; ix < WIDTH; ix++ ) {
+    col=false;
+    int rand=int(random(HEIGHT/2,HEIGHT));
+    for ( int iy = 0 ; iy < HEIGHT; iy++ ) {
+      if(iy == rand)
+      {
+        col=!col;
+      }
+      if(col)
+      {
+        level[iy][ix] ^= 1;
+      }
+    }
+  }
 }
 
 void drawLevel() {
-  fill(0);
+  fill(255);
   noStroke();
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     for ( int iy = 0; iy < HEIGHT; iy++ ) {
@@ -109,4 +126,11 @@ boolean place_free(int xx, int yy){
     }
   }
   return false;
+}
+
+void mousePressed() {
+//Left click creates/destroys a block
+  if ( mouseButton == LEFT ) {
+    level[int(floor(mouseY/16.0))][int(floor(mouseX/16.0))] ^= 1;
+  }
 }

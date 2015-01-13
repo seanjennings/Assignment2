@@ -30,7 +30,7 @@ class Player
     ySave = 0;
     xRep = 0;
     yRep = 0;
-    gravity = 0.10;
+    gravity = 0.15;
   }
   
   Player(int index, color colour, char up, char down, char left, char right, char start, char button1, char button2)
@@ -152,6 +152,6 @@ class Player
   {    
     stroke(colour);
     fill(colour);    
-    rect(pos.x, pos.y, 20, 20);
+    rect(pos.x, pos.y, 15, 15);
   }  
 }
