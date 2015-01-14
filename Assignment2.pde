@@ -12,9 +12,16 @@ final int WIDTH = 30;
 final int HEIGHT = 30;
 int[][] level = new int[HEIGHT][WIDTH];
 
+import ddf.minim.*;
+Minim minim = new Minim(this);
+AudioSample jump;
+
 void setup()
 {
   size(480, 480);
+  
+  jump = minim.loadSample("jump.wav");
+  
   setUpPlayerControllers();
   setUpLevel();
 }

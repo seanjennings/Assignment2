@@ -92,6 +92,7 @@ class Player
     if ( checkKey(up) ) {
       if ( !place_free(int(pos.x),int(pos.y+16)) || !place_free(int(pos.x+15),int(pos.y+16)) ) {
         ySpeed = -5.3;
+        jump.trigger();
       }
     }
     
