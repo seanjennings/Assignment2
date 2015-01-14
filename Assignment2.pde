@@ -16,6 +16,7 @@ void setup()
 {
   size(480, 480);
   setUpPlayerControllers();
+  setUpLevel();
 }
 
 void draw()
@@ -27,6 +28,7 @@ void draw()
     player.update();
     player.display();
   }
+  
   drawLevel();
 }
 
@@ -86,11 +88,16 @@ void setUpPlayerControllers()
     p.pos.y = 300-50;
      players.add(p);         
   }
-  
+}
+
+void setUpLevel()
+{
   boolean col;
+  int rand;
+  
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     col=false;
-    int rand=int(random(HEIGHT/2,HEIGHT));
+    rand=int(random(HEIGHT/2,HEIGHT));
     for ( int iy = 0 ; iy < HEIGHT; iy++ ) {
       if(iy == rand)
       {
@@ -105,7 +112,7 @@ void setUpPlayerControllers()
 }
 
 void drawLevel() {
-  fill(255);
+  fill(150);
   noStroke();
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     for ( int iy = 0; iy < HEIGHT; iy++ ) {
