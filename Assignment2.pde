@@ -81,19 +81,16 @@ void setUpPlayerControllers()
 {
   XML xml = loadXML("arcade.xml");
   XML[] children = xml.getChildren("player");
-  int gap = width / (children.length + 1);
+  int gap = width / (children.length/* + 1*/);
   
   for(int i = 0 ; i < children.length ; i ++)  
   {
     XML playerXML = children[i];
-    Player p = new Player(
-            i
-            , color(random(0, 255), random(0, 255), random(0, 255))
-            , playerXML);
+    Player p = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
     int x = (i + 1) * gap;
     p.pos.x = x;
     p.pos.y = 300-50;
-     players.add(p);         
+    players.add(p);         
   }
 }
 
@@ -119,12 +116,13 @@ void setUpLevel()
 }
 
 void drawLevel() {
-  fill(150);
+  //fill(150);
   noStroke();
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     for ( int iy = 0; iy < HEIGHT; iy++ ) {
+      fill(int(random(100,150)));
       switch(level[iy][ix]) {
-        case 1: rect(ix*16,iy*16,16,16);
+        case 1: rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
       }
     }
   }
@@ -135,7 +133,7 @@ boolean place_free(int xx, int yy){
   yy = int(floor(yy/16.0));
   xx = int(floor(xx/16.0));
   if ( xx > -1 && xx < level[0].length && yy > -1 && yy < level.length ) {
-    if ( level[yy][xx] == 0 ) {
+    if ( level[yy][xx] == 0) {
       return true;
     }
   }
