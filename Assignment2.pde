@@ -18,7 +18,7 @@ AudioSample jump;
 
 void setup()
 {
-  size(480, 480);
+  size(16*HEIGHT, 16*WIDTH);
   
   jump = minim.loadSample("jump.wav");
   
@@ -87,9 +87,9 @@ void setUpPlayerControllers()
   {
     XML playerXML = children[i];
     Player p = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
-    int x = (i + 1) * gap;
-    p.pos.x = x;
-    p.pos.y = 300-50;
+    //int x = (i + 1) * gap;
+    p.pos.x = 0;
+    p.pos.y = 224;
     players.add(p);         
   }
 }
@@ -98,10 +98,11 @@ void setUpLevel()
 {
   boolean col;
   int rand;
+  int previous=15;
   
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     col=false;
-    rand=int(random(HEIGHT/2,HEIGHT));
+    rand=int(previous + random(0,10));
     for ( int iy = 0 ; iy < HEIGHT; iy++ ) {
       if(iy == rand)
       {
@@ -112,6 +113,13 @@ void setUpLevel()
         level[iy][ix] ^= 1;
       }
     }
+    for ( int iy = 0 ; iy < HEIGHT/2; iy++ ) {
+      int obs=int(random(0,20));
+      if(level[iy][ix] != 1 && obs == 0)
+      {
+        level[iy][ix] ^= 2;
+      }
+    }
   }
 }
 
@@ -120,9 +128,12 @@ void drawLevel() {
   noStroke();
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     for ( int iy = 0; iy < HEIGHT; iy++ ) {
-      fill(int(random(100,150)));
       switch(level[iy][ix]) {
-        case 1: rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
+        case 1: fill(int(random(100,150)));
+                rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
+                break;
+        case 2: fill(255,0,0);
+                rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
       }
     }
   }

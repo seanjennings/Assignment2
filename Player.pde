@@ -24,7 +24,7 @@ class Player
     ySpeed = 0;
     accel = 0.5;
     deccel = 0.5;
-    maxXspd = 4;
+    maxXspd = 2;
     maxYspd = 14;
     xSave = 0;
     ySave = 0;
@@ -145,8 +145,7 @@ class Player
       else {
         xSpeed = 0;
       }
-    }
-      
+    } 
   }
   
   void display()
