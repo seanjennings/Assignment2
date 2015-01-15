@@ -145,7 +145,15 @@ class Player
       else {
         xSpeed = 0;
       }
-    } 
+    }
+    
+    if(pos.x >= height-16)
+    {
+      setUpLevel();
+      pos.x = 0;
+      pos.y = 224;
+    }
+    
   }
   
   void display()

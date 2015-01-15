@@ -23,7 +23,7 @@ void setup()
   jump = minim.loadSample("jump.wav");
   
   setUpPlayerControllers();
-  setUpLevel();
+  setUpLevel();setUpLevel();
 }
 
 void draw()
@@ -101,6 +101,12 @@ void setUpLevel()
   int previous=15;
   
   for ( int ix = 0; ix < WIDTH; ix++ ) {
+    for ( int iy = 0 ; iy < HEIGHT; iy++ ) {
+      level[iy][ix]=0;
+    }
+  }
+  
+  for ( int ix = 0; ix < WIDTH; ix++ ) {
     col=false;
     rand=int(previous + random(0,10));
     for ( int iy = 0 ; iy < HEIGHT; iy++ ) {
@@ -113,8 +119,8 @@ void setUpLevel()
         level[iy][ix] ^= 1;
       }
     }
-    for ( int iy = 0 ; iy < HEIGHT/2; iy++ ) {
-      int obs=int(random(0,20));
+    for ( int iy = 0 ; iy < HEIGHT-15; iy++ ) {
+      int obs=int(random(0,15));
       if(level[iy][ix] != 1 && obs == 0)
       {
         level[iy][ix] ^= 2;
