@@ -7,6 +7,8 @@
 */
 
 ArrayList<Player> players = new ArrayList<Player>();
+ArrayList<Star> stars = new ArrayList<Star>();
+ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 boolean[] keys = new boolean[526];
 final int WIDTH = 30;
 final int HEIGHT = 30;
@@ -23,12 +25,13 @@ void setup()
   jump = minim.loadSample("jump.wav");
   
   setUpPlayerControllers();
-  setUpLevel();setUpLevel();
+  setUpLevel();
 }
 
 void draw()
 {
   background(0);
+  drawLevel();
   
   for(Player player:players)
   {
@@ -36,7 +39,15 @@ void draw()
     player.display();
   }
   
-  drawLevel();
+  for(Star star:stars)
+  {
+   star.display();
+  }
+  
+  for(Obstacle obstacle:obstacles)
+  {
+   obstacle.display();
+  }
 }
 
 void keyPressed()
@@ -124,22 +135,44 @@ void setUpLevel()
       if(level[iy][ix] != 1 && obs == 0)
       {
         level[iy][ix] ^= 2;
+        PVector pos = new PVector();
+        color colour;
+        pos.x = iy;
+        pos.y = ix;
+        colour = color(80,0,0);
+        Star s = new Star(pos, colour);
+        stars.add(s);
+      }
+    }
+    
+    for ( int iy = 0 ; iy < HEIGHT-15; iy++ ) {
+      int obs=int(random(0,15));
+      if(level[iy][ix] != 1 && obs == 0)
+      {
+        level[iy][ix] ^= 3;
+        PVector pos = new PVector();
+        color colour;
+        pos.x = iy;
+        pos.y = ix;
+        colour = int(random(200,255));
+        Star s = new Star(pos, colour);
+        stars.add(s);
       }
     }
   }
 }
 
 void drawLevel() {
-  //fill(150);
   noStroke();
+  
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     for ( int iy = 0; iy < HEIGHT; iy++ ) {
       switch(level[iy][ix]) {
-        case 1: fill(int(random(100,150)));
+        case 1: fill(int(random(128,188)),0,0);
                 rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
                 break;
-        case 2: fill(255,0,0);
-                rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
+        /*case 2: fill(80,0,0);
+                rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);*/
       }
     }
   }
