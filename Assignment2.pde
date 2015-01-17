@@ -9,6 +9,7 @@
 ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+ArrayList<Surface> surfaces = new ArrayList<Surface>();
 boolean[] keys = new boolean[526];
 final int WIDTH = 30;
 final int HEIGHT = 30;
@@ -31,7 +32,12 @@ void setup()
 void draw()
 {
   background(0);
-  drawLevel();
+  
+  for(Surface surface:surfaces)
+  {
+    surface.update();
+    surface.display();
+  }
   
   for(Player player:players)
   {
@@ -111,12 +117,17 @@ void setUpLevel()
   int rand;
   int previous=15;
   
+  //Clear previous stage
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     for ( int iy = 0 ; iy < HEIGHT; iy++ ) {
       level[iy][ix]=0;
     }
   }
+  surfaces.clear();
+  stars.clear();
+  obstacles.clear();
   
+  //Set stage variables and create objects
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     col=false;
     rand=int(previous + random(0,10));
@@ -128,6 +139,13 @@ void setUpLevel()
       if(col)
       {
         level[iy][ix] ^= 1;
+        PVector pos = new PVector();
+        color colour;
+        pos.x = iy;
+        pos.y = ix;
+        colour = color(80,0,0);
+        Surface s = new Surface(pos, colour);
+        surfaces.add(s);
       }
     }
     for ( int iy = 0 ; iy < HEIGHT-15; iy++ ) {
@@ -168,7 +186,7 @@ void drawLevel() {
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     for ( int iy = 0; iy < HEIGHT; iy++ ) {
       switch(level[iy][ix]) {
-        case 1: fill(int(random(128,188)),0,0);
+        /*case 1: fill(int(random(128,188)),0,0);
                 rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
                 break;
         /*case 2: fill(80,0,0);

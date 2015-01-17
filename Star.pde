@@ -8,8 +8,8 @@ class Star{
   }
   
   void display(){
+    noStroke();
     fill(colour);
-    stroke(colour);
     rect(pos.y*16,pos.x*16,16,16);
   }
 }
