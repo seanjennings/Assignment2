@@ -33,30 +33,26 @@ void draw()
 {
   background(0);
   
-  for(Surface surface:surfaces)
-  {
+  for(Surface surface:surfaces) {
     surface.update();
     surface.display();
   }
   
-  for(Player player:players)
-  {
+  for(Player player:players) {
     player.update();
     player.display();
   }
   
-  for(Star star:stars)
-  {
+  for(Star star:stars) {
    star.display();
   }
   
-  for(Obstacle obstacle:obstacles)
-  {
+  for(Obstacle obstacle:obstacles) {
    obstacle.display();
   }
 }
 
-void keyPressed()
+void keyPressed() 
 {
   keys[keyCode] = true;
 }
@@ -74,20 +70,16 @@ boolean checkKey(char theKey)
 char buttonNameToKey(XML xml, String buttonName)
 {
   String value =  xml.getChild(buttonName).getContent();
-  if ("LEFT".equalsIgnoreCase(value))
-  {
+  if ("LEFT".equalsIgnoreCase(value)) {
     return LEFT;
   }
-  if ("RIGHT".equalsIgnoreCase(value))
-  {
+  if ("RIGHT".equalsIgnoreCase(value)) {
     return RIGHT;
   }
-  if ("UP".equalsIgnoreCase(value))
-  {
+  if ("UP".equalsIgnoreCase(value)) {
     return UP;
   }
-  if ("DOWN".equalsIgnoreCase(value))
-  {
+  if ("DOWN".equalsIgnoreCase(value)) {
     return DOWN;
   }
   //.. Others to follow
@@ -100,8 +92,7 @@ void setUpPlayerControllers()
   XML[] children = xml.getChildren("player");
   int gap = width / (children.length/* + 1*/);
   
-  for(int i = 0 ; i < children.length ; i ++)  
-  {
+  for(int i = 0 ; i < children.length ; i ++) {
     XML playerXML = children[i];
     Player p = new Player(i, color(random(0, 255), random(0, 255), random(0, 255)), playerXML);
     //int x = (i + 1) * gap;
@@ -127,17 +118,18 @@ void setUpLevel()
   stars.clear();
   obstacles.clear();
   
-  //Set stage variables and create objects
+  /* Set stage variables and create objects */
+  
+  //Planet Surface Setup
   for ( int ix = 0; ix < WIDTH; ix++ ) {
     col=false;
     rand=int(previous + random(0,10));
     for ( int iy = 0 ; iy < HEIGHT; iy++ ) {
-      if(iy == rand)
-      {
+      if(iy == rand) {
         col=!col;
       }
-      if(col)
-      {
+      
+      if(col) {
         level[iy][ix] ^= 1;
         PVector pos = new PVector();
         color colour;
@@ -148,10 +140,12 @@ void setUpLevel()
         surfaces.add(s);
       }
     }
+    
+    //Star Setup
     for ( int iy = 0 ; iy < HEIGHT-15; iy++ ) {
       int obs=int(random(0,15));
-      if(level[iy][ix] != 1 && obs == 0)
-      {
+      
+      if(level[iy][ix] == 0 && obs == 0) {
         level[iy][ix] ^= 2;
         PVector pos = new PVector();
         color colour;
@@ -163,10 +157,10 @@ void setUpLevel()
       }
     }
     
+    //Obstacle Setup
     for ( int iy = 0 ; iy < HEIGHT-15; iy++ ) {
       int obs=int(random(0,15));
-      if(level[iy][ix] != 1 && obs == 0)
-      {
+      if(level[iy][ix] == 0 && obs == 0) {
         level[iy][ix] ^= 3;
         PVector pos = new PVector();
         color colour;
@@ -180,22 +174,7 @@ void setUpLevel()
   }
 }
 
-void drawLevel() {
-  noStroke();
-  
-  for ( int ix = 0; ix < WIDTH; ix++ ) {
-    for ( int iy = 0; iy < HEIGHT; iy++ ) {
-      switch(level[iy][ix]) {
-        /*case 1: fill(int(random(128,188)),0,0);
-                rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);
-                break;
-        /*case 2: fill(80,0,0);
-                rect(ix*16,iy*16,16,16); //ellipse(ix*16+8,iy*16+8,16,16);*/
-      }
-    }
-  }
-}
-
+//Collision Detection
 boolean place_free(int xx, int yy){
 //checks if a given point (xx,yy) is free (no block at that point) or not
   yy = int(floor(yy/16.0));
@@ -208,6 +187,7 @@ boolean place_free(int xx, int yy){
   return false;
 }
 
+//Debugging Level Editor
 void mousePressed() {
 //Left click creates/destroys a block
   if ( mouseButton == LEFT ) {

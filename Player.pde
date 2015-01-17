@@ -121,16 +121,16 @@ class Player
     int offsetX = (xSpeed<0) ? 0 : 15;
     int offsetY = (ySpeed<0) ? 0 : 15;
     
-    if ( xSave >= 1 ) {
+    if (xSave >= 1) {
       xSave -= 1;
       xRep++;
     }
-    if ( ySave >= 1 ) {
+    if (ySave >= 1) {
       ySave -= 1;
       yRep++;
     }
     
-    for ( ; yRep > 0; yRep-- ) {
+    for (; yRep > 0; yRep--) {
       if ( place_free(int(pos.x),int(pos.y+offsetY+signY)) && place_free(int(pos.x+15),int(pos.y+offsetY+signY)) ) {
         pos.y += signY;
       }
@@ -138,7 +138,8 @@ class Player
         ySpeed = 0;
       }
     }
-    for ( ; xRep > 0; xRep-- ) {
+    
+    for (; xRep > 0; xRep--) {
       if ( place_free(int(pos.x+offsetX+signX),int(pos.y)) && place_free( int(pos.x+offsetX+signX),int(pos.y+15) ) ) {
         pos.x += signX;
       }
@@ -153,7 +154,6 @@ class Player
       pos.x = 0;
       pos.y = 224;
     }
-    
   }
   
   void display()
