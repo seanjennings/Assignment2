@@ -14,6 +14,7 @@ boolean[] keys = new boolean[526];
 final int WIDTH = 30;
 final int HEIGHT = 30;
 int[][] level = new int[HEIGHT][WIDTH];
+float life;
 
 import ddf.minim.*;
 Minim minim = new Minim(this);
@@ -22,6 +23,7 @@ AudioSample jump;
 void setup()
 {
   size(16*HEIGHT, 16*WIDTH);
+  life = 100.0f;
   
   jump = minim.loadSample("jump.wav");
   
@@ -151,7 +153,8 @@ void setUpLevel()
         color colour;
         pos.x = iy;
         pos.y = ix;
-        colour = color(80,0,0);
+        //colour = color(80,0,0);
+        colour = int(random(200,255));
         Star s = new Star(pos, colour);
         stars.add(s);
       }
@@ -166,9 +169,10 @@ void setUpLevel()
         color colour;
         pos.x = iy;
         pos.y = ix;
-        colour = int(random(200,255));
-        Star s = new Star(pos, colour);
-        stars.add(s);
+        //colour = int(random(200,255));
+        colour = color(80,0,0);
+        Obstacle o = new Obstacle(pos, colour);
+        obstacles.add(o);
       }
     }
   }
@@ -180,11 +184,32 @@ boolean place_free(int xx, int yy){
   yy = int(floor(yy/16.0));
   xx = int(floor(xx/16.0));
   if ( xx > -1 && xx < level[0].length && yy > -1 && yy < level.length ) {
+    /*switch(level[yy][xx]) {
+      case 1:  return false;
+      case 2:  life += 0.1f;
+               return false;
+      case 3:  return false;
+    }*/
     if ( level[yy][xx] == 0) {
       return true;
     }
   }
+  
+  //Block Interaction Operations depending on block type
+  switch(level[yy][xx]) {
+    case 1:  break;
+    case 2:  life += 0.1f;
+             break;
+    case 3:  break;
+  }
+  
   return false;
+}
+
+void displayData()
+{
+  fill(0,255,0);
+  text(life, 10, 30);
 }
 
 //Debugging Level Editor
