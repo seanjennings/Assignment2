@@ -1,14 +1,23 @@
-ArrayList<Block> blocks = new ArrayList<Block>();
-class VisibleBoard {
-  
-  VisibleBoard() {
+class VisibleBoard
+{
+  VisibleBoard()
+  {
     int blockheight = 8;
-    for (int i=0;i<50;i++) {
+    
+    for (int i=0;i<50;i++)
+    {
       blocks.add(new Block(blockheight,20));
-      if (random(1) < .10) {
-        if (random(1) < .5) {
-          if (blockheight > 0) blockheight--;
-        } else if (blockheight < 15) blockheight++;
+      
+      if (random(1) < .10)
+      {
+        if (random(1) < .5)
+        {
+          if (blockheight > 0) 
+          {
+            blockheight--;
+          }
+        } 
+        else if (blockheight < 15) blockheight++;
       }
     }
   }
@@ -28,7 +37,7 @@ class VisibleBoard {
     
     if (random(1) < .10)
     {
-      if (random(1) < .5) 
+      if (random(1) < .8) 
       {
         if (blockheight > 1) blockheight--;
       } 
@@ -59,13 +68,15 @@ class VisibleBoard {
       return ((Block)blocks.get(blocks.size()-1)).w;
     }
     //return the width of the right-most block
-    //return ((Block)blocks.get(blocks.size()-1)).w;
   }
   
-  void displayboard(float position,int offset) {
+  void displayboard(float position,int offset)
+  {
     Block block;
     int x=width+offset;
-    for (int i=(blocks.size()-1);i>1;i--) {
+    
+    for (int i=(blocks.size()-1);i>1;i--)
+    {
       block = (Block)blocks.get(i);
       block.displayblock(x);
       block = (Block)blocks.get(i-1);
@@ -77,11 +88,10 @@ class VisibleBoard {
     return ((Block)blocks.get(0)).w;
   }
   
-  
-  float find_floor(float x1, float w) {
-    
+  float find_floor(float x1, float w)
+  {  
     //the purpose of this function is to find the highest point
-    //betwee x and x+w (those represent the feet of the character)
+    //between x and x+w (those represent the feet of the character)
     x1 -= 100;
     float x2 = x1+w;
     float the_floor = height*2;
@@ -90,7 +100,8 @@ class VisibleBoard {
     boolean show = false;
     if (random(1) > .98) show = true;
     
-    for (int i=(blocks.size()-1);i>1;i--) {
+    for (int i=(blocks.size()-1);i>1;i--)
+    {
       block = (Block)blocks.get(i);
       
       //falls off a forward edge too soon

@@ -1,25 +1,26 @@
-VisibleBoard board;
 int offset;
-int cycles_running;
+//int cycles_running;
 float step_size;
 float position;
 PFont font;
 
-boolean key_forward;
-boolean key_back;
 float floor_y;
 float player_x;
+
+VisibleBoard board;
 ArrayList<Player> players = new ArrayList<Player>();
+ArrayList<Block> blocks = new ArrayList<Block>();
 boolean[] keys = new boolean[526];
 PGraphics buffer;
 PImage img;
-float running_time;
+//float running_time;
 float start_time;
 float stop_time;
 float now;
 float distance_covered;
 
-void setup() {
+void setup()
+{
   size(600,400);
 
   stroke(255);
@@ -34,28 +35,10 @@ void setup() {
   buffer = createGraphics(width, height);
   start_time = millis();
   //frameRate(30);
-}/*
-void keyPressed() {
-  if (keyCode==RIGHT) {
-    key_forward = true;
-    //println("RIGHT");
-  } else if (keyCode == UP) {
-    key_back = true;
-  } else if (key == ' ') {
-    players.get(0).jump();
-  }
 }
-void keyReleased() {
-  if (keyCode==RIGHT) {
-    key_forward = false;
-    step_size = 0;
-    cycles_running = 0;
-  } else if (keyCode == LEFT) {
-    key_back = false;
-  }
-}*/
 
-void draw() {
+void draw()
+{
   print(blocks.size()+"\n");
   players.get(0).update();
   
@@ -64,16 +47,20 @@ void draw() {
   
   offset = int(offset - step_size);
     
-  if (offset <= -1 * board.widthoflastblock()) {
+  if (offset <= -1 * board.widthoflastblock())
+  {
     offset = offset + board.stepforward();
   }
+  
   buffer.beginDraw();
   buffer.background(0);
   board.displayboard(position,offset+100);
   players.get(0).drawplayer();
   if (players.get(0).dead == false) {
     now = millis() - start_time;
-  } else if (millis() - stop_time > 3000) {
+  } 
+  else if (millis() - stop_time > 3000)
+  {
     start_time = millis();
     distance_covered = 0;
     players.clear();
@@ -106,16 +93,20 @@ boolean checkKey(char theKey)
 char buttonNameToKey(XML xml, String buttonName)
 {
   String value =  xml.getChild(buttonName).getContent();
-  if ("LEFT".equalsIgnoreCase(value)) {
+  if ("LEFT".equalsIgnoreCase(value))
+  {
     return LEFT;
   }
-  if ("RIGHT".equalsIgnoreCase(value)) {
+  if ("RIGHT".equalsIgnoreCase(value))
+  {
     return RIGHT;
   }
-  if ("UP".equalsIgnoreCase(value)) {
+  if ("UP".equalsIgnoreCase(value))
+  {
     return UP;
   }
-  if ("DOWN".equalsIgnoreCase(value)) {
+  if ("DOWN".equalsIgnoreCase(value))
+  {
     return DOWN;
   }
   //.. Others to follow

@@ -1,4 +1,5 @@
-class Player {
+class Player
+{
   char up;
   char down;
   char left;
@@ -6,7 +7,6 @@ class Player {
   char start;
   char button1;
   char button2;
-  //float xpos;
   
   float x;
   float x_speed;
@@ -15,13 +15,8 @@ class Player {
   float y_speed;
   boolean dead;
   
-  Player()
-  {
-  }
-  
   Player(float xpos, char up, char down, char left, char right, char start, char button1, char button2)
   {
-    this();
     x = xpos;
     this.up = up;
     this.down = down;
@@ -120,7 +115,7 @@ class Player {
   }
   
   void drawplayer() {
-    buffer.noStroke();
+    buffer.stroke(240,0,0);
     buffer.fill(240,0,0);
     buffer.rect(x,y-20,20,20);
   }
