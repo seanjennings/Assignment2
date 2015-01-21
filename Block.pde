@@ -46,9 +46,9 @@ class Block
       }
     }
     
-    if ((x+w > player_x) && (x < player_x + 20))
+    if ((x+w > playerX) && (x < playerX + 20))
     {
-      floor_y = top_y;
+      floorY = top_y;
     }
     
     return x+w;

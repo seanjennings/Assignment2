@@ -1,23 +1,26 @@
 int offset;
-//int cycles_running;
-float step_size;
+float stepSize;
 float position;
 PFont font;
 
-float floor_y;
-float player_x;
+float floorY;
+float playerX;
 
 VisibleBoard board;
 ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Block> blocks = new ArrayList<Block>();
+ArrayList<Star> stars = new ArrayList<Star>();
+ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
+
 boolean[] keys = new boolean[526];
 PGraphics buffer;
 PImage img;
-//float running_time;
-float start_time;
-float stop_time;
+
+float startTime;
+float stopTime;
 float now;
-float distance_covered;
+float distanceCovered;
+
 
 void setup()
 {
@@ -33,46 +36,58 @@ void setup()
   textFont(font);
   
   buffer = createGraphics(width, height);
-  start_time = millis();
+  startTime = millis();
   //frameRate(30);
 }
 
 void draw()
 {
-  print(blocks.size()+"\n");
+  //Block Object Counter
+  //print(stars.size()+"\n");
+  
   players.get(0).update();
+  board.drawBoard();
   
-  step_size = players.get(0).doplayer();
-  distance_covered += step_size;
-  
-  offset = int(offset - step_size);
-    
-  if (offset <= -1 * board.widthoflastblock())
+  if((int)random(0,520) == 0)
   {
-    offset = offset + board.stepforward();
+    PVector p=new PVector();
+    p.x=(int)random(width*.33,width-20);
+    p.y=0-20;
+    color c = color(255);
+    stars.add(new Star(p,c));
   }
   
-  buffer.beginDraw();
-  buffer.background(0);
-  board.displayboard(position,offset+100);
-  players.get(0).drawplayer();
-  if (players.get(0).dead == false) {
-    now = millis() - start_time;
-  } 
-  else if (millis() - stop_time > 3000)
+  if((int)random(0,120) == 0)
   {
-    start_time = millis();
-    distance_covered = 0;
-    players.clear();
-    setUpPlayerControllers();
+    PVector p=new PVector();
+    p.x=(int)random(width*.33,width-20);
+    p.y=0-20;
+    color c = color(80,0,0);
+    obstacles.add(new Obstacle(p,c));
   }
-  buffer.text("Time: "+(int)now/1000+"secs",20,20);
-  buffer.text("Distance: "+(int)distance_covered/20+"m",20,50);
   
-  buffer.endDraw();
+  for(int i=0;i<obstacles.size();i++)
+  {
+    obstacles.get(i).update();
+    obstacles.get(i).display();
+    if(obstacles.get(i).collision())
+    {
+      obstacles.remove(i);
+    }
+  }
+  for(Star s:stars)
+  {
+    s.update();
+    s.display();
+  }
   
-  img = buffer.get(0, 0, buffer.width, buffer.height);
-  image(img, 0, 0);
+  displayData();
+}
+
+void displayData()
+{
+  text("Time: "+(int)now/1000+"secs",20,20);
+  text("Distance: "+(int)distanceCovered/20+"m",20,50);
 }
 
 void keyPressed() 
@@ -122,6 +137,6 @@ void setUpPlayerControllers()
   for(int i = 0 ; i < children.length ; i ++) {
     XML playerXML = children[i];
     players.add(new Player(width*.33, playerXML));
-    player_x = width*.33;        
+    playerX = width*.33;        
   }
 }

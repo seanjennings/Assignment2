@@ -117,6 +117,36 @@ class VisibleBoard
     return the_floor;  
   }
   
+  void drawBoard()
+  {
+    offset = int(offset - stepSize);
+    
+    if (offset <= -1 * board.widthoflastblock())
+    {
+      offset = offset + board.stepforward();
+    }
+    
+    buffer.beginDraw();
+    buffer.background(0);
+    board.displayboard(position,offset+100);
+    players.get(0).drawplayer();
+    if (players.get(0).dead == false) {
+      now = millis() - startTime;
+    } 
+    else if (millis() - stopTime > 3000)
+    {
+      startTime = millis();
+      distanceCovered = 0;
+      players.clear();
+      setUpPlayerControllers();
+    }
+    
+    buffer.endDraw();
+    
+    img = buffer.get(0, 0, buffer.width, buffer.height);
+    image(img, 0, 0);
+  }
+  
   
 }
 

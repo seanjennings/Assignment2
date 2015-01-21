@@ -44,8 +44,10 @@ class Player
   
   void update()
   {
-    if (checkKey(right) && !checkKey(left)) {
-      if (players.get(0).dead == false) {
+    if (checkKey(right) && !checkKey(left))
+    {
+      if (players.get(0).dead == false)
+      {
         players.get(0).forward();    
       }
     }
@@ -53,26 +55,31 @@ class Player
     {
       players.get(0).jump();
     }
+    stepSize = players.get(0).doplayer();
+    distanceCovered += stepSize;
   }
   
-  void forward() {
+  void forward()
+  {
     if (dead) return;
     x_speed += 0.2;
     if (x_speed > 4.2) x_speed = 4.2;
     return;
   }
   
-  void jump() {
+  void jump()
+  {
     if (dead) return;
-    if (y == board.find_floor(x,20)) {
+    if (y == board.find_floor(x,20))
+    {
       y_speed = -8;
     }
   }
   
-  float doplayer() {
+  float doplayer()
+  {
     float startx=x;
     float thefloor = board.find_floor(x,20);
-    
     
     //see if we need to do some gravity  
     if (y < thefloor) y_speed += .2;
@@ -105,7 +112,7 @@ class Player
         dead = true;
         x_speed = 0;
         y_speed = -12;
-        stop_time = millis();
+        stopTime = millis();
       }
     }
     
@@ -114,10 +121,14 @@ class Player
     return x_speed;
   }
   
-  void drawplayer() {
+  void drawplayer()
+  {
     buffer.stroke(240,0,0);
     buffer.fill(240,0,0);
     buffer.rect(x,y-20,20,20);
+    pl.x = x;
+    pl.y = y-20;
   }
   
 }
+PVector pl = new PVector();
