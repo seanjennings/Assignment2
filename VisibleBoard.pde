@@ -6,7 +6,7 @@ class VisibleBoard
     
     for (int i=0;i<50;i++)
     {
-      blocks.add(new Block(blockheight,20));
+      blocks.add(new Block(blockheight,cellSize));
       
       if (random(1) < .10)
       {
@@ -37,7 +37,7 @@ class VisibleBoard
     
     if (random(1) < .10)
     {
-      if (random(1) < .8) 
+      if (random(1) < .6) 
       {
         if (blockheight > 1) blockheight--;
       } 
@@ -46,7 +46,7 @@ class VisibleBoard
         if (blockheight < 15) blockheight++;
       }
       
-      blocks.add(new Block(blockheight,20));
+      blocks.add(new Block(blockheight,cellSize));
       blocks.remove(0); 
       return ((Block)blocks.get(blocks.size()-1)).w;
     } 
@@ -55,15 +55,15 @@ class VisibleBoard
       int i;
       for(i=0;i<(int)random(4,8);i++)
       {
-        blocks.add(new Block(0,20));
+        blocks.add(new Block(0,cellSize));
       }
-      blocks.add(new Block(blockheight,20));
+      blocks.add(new Block(blockheight,cellSize));
       blocks.remove(0);
-      return (20*i)+20;
+      return (cellSize*i)+cellSize;
     } 
     else 
     {
-      blocks.add(new Block(blockheight,20));
+      blocks.add(new Block(blockheight,cellSize));
       blocks.remove(0);
       return ((Block)blocks.get(blocks.size()-1)).w;
     }

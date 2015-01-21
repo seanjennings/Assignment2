@@ -70,7 +70,7 @@ class Player
   void jump()
   {
     if (dead) return;
-    if (y == board.find_floor(x,20))
+    if (y == board.find_floor(x,cellSize))
     {
       y_speed = -8;
     }
@@ -79,7 +79,7 @@ class Player
   float doplayer()
   {
     float startx=x;
-    float thefloor = board.find_floor(x,20);
+    float thefloor = board.find_floor(x,cellSize);
     
     //see if we need to do some gravity  
     if (y < thefloor) y_speed += .2;
@@ -101,7 +101,7 @@ class Player
     
     //Make sure we're not going to run into a wall
     if (x_speed > 0) {
-      if (y > board.find_floor(int(x+x_speed),20)) {
+      if (y > board.find_floor(int(x+x_speed),cellSize)) {
         //key_forward = false;
         x_speed = 0;
       }
@@ -125,9 +125,9 @@ class Player
   {
     buffer.stroke(240,0,0);
     buffer.fill(240,0,0);
-    buffer.rect(x,y-20,20,20);
+    buffer.rect(x,y-cellSize,cellSize,cellSize);
     pl.x = x;
-    pl.y = y-20;
+    pl.y = y-cellSize;
   }
   
 }

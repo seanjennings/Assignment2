@@ -20,14 +20,15 @@ class Obstacle
   {
     noStroke();
     fill(colour);
-    rect(pos.x,pos.y,20,20);
+    rect(pos.x,pos.y,cellSize,cellSize);
   }
   
   boolean collision()
   {
-    if((pl.x > pos.x && pl.x < pos.x+20  &&  pl.y+20 > pos.y && pl.y+20 < pos.y+20) || (pl.x > pos.x && pl.x < pos.x+20  &&  pl.y > pos.y && pl.y < pos.y+20) || (pl.x+20 > pos.x && pl.x+20 < pos.x+20  &&  pl.y > pos.y && pl.y+20 < pos.y+20) || (pl.x+20 > pos.x && pl.x+20 < pos.x+20  &&  pl.y+20 > pos.y && pl.y+20 < pos.y+20))
+    if((pl.x > pos.x && pl.x < pos.x+cellSize  &&  pl.y+cellSize > pos.y && pl.y+cellSize < pos.y+cellSize) || (pl.x > pos.x && pl.x < pos.x+cellSize  &&  pl.y > pos.y && pl.y < pos.y+cellSize) || (pl.x+cellSize > pos.x && pl.x+cellSize < pos.x+cellSize  &&  pl.y > pos.y && pl.y+cellSize < pos.y+cellSize) || (pl.x+cellSize > pos.x && pl.x+cellSize < pos.x+cellSize  &&  pl.y+cellSize > pos.y && pl.y+cellSize < pos.y+cellSize))
     {
         print("hit\n");
+        health-=(int)random(4,10);
         return true;
     }
     return false;

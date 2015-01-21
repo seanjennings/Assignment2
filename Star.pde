@@ -19,6 +19,6 @@ class Star
   {
     noStroke();
     fill(colour);
-    rect(pos.x,pos.y,20,20);
+    rect(pos.x,pos.y,cellSize,cellSize);
   }
 }

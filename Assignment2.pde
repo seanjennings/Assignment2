@@ -20,11 +20,13 @@ float startTime;
 float stopTime;
 float now;
 float distanceCovered;
-
+int health;
+int cellSize;
 
 void setup()
 {
   size(600,400);
+  cellSize = (int)width/30;
 
   stroke(255);
   background(0);
@@ -37,7 +39,8 @@ void setup()
   
   buffer = createGraphics(width, height);
   startTime = millis();
-  //frameRate(30);
+  
+  health=100;
 }
 
 void draw()
@@ -51,8 +54,8 @@ void draw()
   if((int)random(0,520) == 0)
   {
     PVector p=new PVector();
-    p.x=(int)random(width*.33,width-20);
-    p.y=0-20;
+    p.x=(int)random(width*.33,width-cellSize);
+    p.y=0-cellSize;
     color c = color(255);
     stars.add(new Star(p,c));
   }
@@ -60,8 +63,8 @@ void draw()
   if((int)random(0,120) == 0)
   {
     PVector p=new PVector();
-    p.x=(int)random(width*.33,width-20);
-    p.y=0-20;
+    p.x=(int)random(width*.33,width-cellSize);
+    p.y=0-cellSize;
     color c = color(80,0,0);
     obstacles.add(new Obstacle(p,c));
   }
@@ -86,8 +89,11 @@ void draw()
 
 void displayData()
 {
-  text("Time: "+(int)now/1000+"secs",20,20);
-  text("Distance: "+(int)distanceCovered/20+"m",20,50);
+  fill(255);
+  text("Time: "+(int)now/1000+"secs",cellSize,cellSize);
+  text("Distance: "+(int)distanceCovered/cellSize+"m",cellSize,50);
+  fill(0,255,0);
+  text("Health: "+health+"%",cellSize,80);
 }
 
 void keyPressed() 
