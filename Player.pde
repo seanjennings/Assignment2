@@ -85,13 +85,13 @@ class Player
     if (y < thefloor) y_speed += .2;
     
     //slow down due to friction and air resistance
-    if (x_speed > 0) {
+    if (x_speed*x_spd_mod > 0) {
       x_speed -= .1; //0.05 (it's like ice)
       if (x_speed < 0) x_speed = 0;
     }
     
-    //x += x_speed;
-    y += y_speed;
+    //x += x_speed*x_spd_mod;
+    y += y_speed*height/600;
     
     if (y > thefloor) {
       //println(&quot;Below the floor!&quot;);
@@ -100,8 +100,8 @@ class Player
     }
     
     //Make sure we're not going to run into a wall
-    if (x_speed > 0) {
-      if (y > board.find_floor(int(x+x_speed),cellSize)) {
+    if (x_speed*x_spd_mod > 0) {
+      if (y > board.find_floor(int(x+x_speed*x_spd_mod),cellSize)) {
         //key_forward = false;
         x_speed = 0;
       }
@@ -117,8 +117,8 @@ class Player
     }
     
     //y = min(thefloor,y);
-    //println(&quot;doplayer, x_speed: &quot; + x_speed);
-    return x_speed;
+    //println(&quot;doplayer, x_speed*x_spd_mod: &quot; + x_speed*x_spd_mod);
+    return x_speed*x_spd_mod;
   }
   
   void drawplayer()

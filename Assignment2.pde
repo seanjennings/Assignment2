@@ -22,11 +22,16 @@ float now;
 float distanceCovered;
 int health;
 int cellSize;
+int x_spd_mod;
+int y_spd_mod;
 
 void setup()
 {
+  //size(1280,1024);
   size(600,400);
   cellSize = (int)width/30;
+  x_spd_mod = width/600;
+  y_spd_mod = height/400;
 
   stroke(255);
   background(0);
@@ -41,16 +46,49 @@ void setup()
   startTime = millis();
   
   health=100;
+  frameRate(30);
 }
 
 void draw()
 {
   //Block Object Counter
-  //print(stars.size()+"\n");
+  print("s: "+stars.size()+"\n");
+  print("o: "+obstacles.size()+"\n");
+  print("p: "+players.size()+"\n");
+  print("b: "+blocks.size()+"\n");
   
   players.get(0).update();
   board.drawBoard();
   
+  createStars();
+  createObstacles();
+  
+  for(Star s:stars)
+  {
+    s.update();
+    s.display();
+  }
+  for(Obstacle o:obstacles)
+  {
+    o.update();
+    o.display();
+  }
+  
+  frameRate(60);
+  displayData();
+}
+
+void displayData()
+{
+  fill(255);
+  text("Time: "+(int)now/1000+"secs",cellSize,cellSize);
+  text("Distance: "+(int)distanceCovered/cellSize+"m",cellSize,50);
+  fill(0,255,0);
+  text("Health: "+health+"%",cellSize,80);
+}
+
+void createStars()
+{
   if((int)random(0,520) == 0)
   {
     PVector p=new PVector();
@@ -60,6 +98,17 @@ void draw()
     stars.add(new Star(p,c));
   }
   
+  for(int i=0;i<stars.size();i++)
+  {
+    if(stars.get(i).collision() || stars.get(i).pos.y > height)
+    {
+      stars.remove(i);
+    }
+  }
+}
+
+void createObstacles()
+{
   if((int)random(0,120) == 0)
   {
     PVector p=new PVector();
@@ -71,29 +120,11 @@ void draw()
   
   for(int i=0;i<obstacles.size();i++)
   {
-    obstacles.get(i).update();
-    obstacles.get(i).display();
-    if(obstacles.get(i).collision())
+    if(obstacles.get(i).collision() || obstacles.get(i).pos.y > height)
     {
       obstacles.remove(i);
     }
   }
-  for(Star s:stars)
-  {
-    s.update();
-    s.display();
-  }
-  
-  displayData();
-}
-
-void displayData()
-{
-  fill(255);
-  text("Time: "+(int)now/1000+"secs",cellSize,cellSize);
-  text("Distance: "+(int)distanceCovered/cellSize+"m",cellSize,50);
-  fill(0,255,0);
-  text("Health: "+health+"%",cellSize,80);
 }
 
 void keyPressed() 

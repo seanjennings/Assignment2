@@ -13,7 +13,7 @@ class Obstacle
   {
     pos.x -= players.get(0).x_speed;
 
-    pos.y++;
+    pos.y+=1*(y_spd_mod);
   }
   
   void display()
@@ -25,12 +25,27 @@ class Obstacle
   
   boolean collision()
   {
-    if((pl.x > pos.x && pl.x < pos.x+cellSize  &&  pl.y+cellSize > pos.y && pl.y+cellSize < pos.y+cellSize) || (pl.x > pos.x && pl.x < pos.x+cellSize  &&  pl.y > pos.y && pl.y < pos.y+cellSize) || (pl.x+cellSize > pos.x && pl.x+cellSize < pos.x+cellSize  &&  pl.y > pos.y && pl.y+cellSize < pos.y+cellSize) || (pl.x+cellSize > pos.x && pl.x+cellSize < pos.x+cellSize  &&  pl.y+cellSize > pos.y && pl.y+cellSize < pos.y+cellSize))
+    // Its easier to check if they DONT colide
+    if (pl.x + cellSize < pos.x)
     {
-        print("hit\n");
-        health-=(int)random(4,10);
-        return true;
+      return false;
     }
-    return false;
+    if (pl.x > pos.x + cellSize)
+    {
+      return false;
+    } 
+    
+    if (pl.y > pos.y + cellSize)
+    {
+      return false;
+    }
+    
+    if (pl.y + cellSize < pos.y)
+    {
+      return false;
+    }
+    // If none of the above then there is a collision
+    health-=(int)random(0,20);
+    return true;
   }
 }

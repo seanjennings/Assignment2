@@ -12,7 +12,7 @@ class Star
   void update()
   {
     pos.x -= players.get(0).x_speed;
-    pos.y++;
+    pos.y+=1*(y_spd_mod);
   }
   
   void display()
@@ -20,5 +20,34 @@ class Star
     noStroke();
     fill(colour);
     rect(pos.x,pos.y,cellSize,cellSize);
+  }
+  
+  boolean collision()
+  {
+    // Its easier to check if they DONT colide
+    if (pl.x + cellSize < pos.x)
+    {
+      return false;
+    }
+    if (pl.x > pos.x + cellSize)
+    {
+      return false;
+    } 
+    
+    if (pl.y > pos.y + cellSize)
+    {
+      return false;
+    }
+    
+    if (pl.y + cellSize < pos.y)
+    {
+      return false;
+    }
+    // If none of the above then there is a collision
+    if(health<100)
+    {
+      health+=(int)random(0,5);
+    }
+    return true;
   }
 }
