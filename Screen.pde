@@ -33,7 +33,7 @@ class Screen
   
   void splash()
   {
-    text("PRESS START.",0,40);
+    text("PRESS START.",0,cellSize);
     if(checkKey(up))
     {
       gameState=3;
@@ -47,7 +47,8 @@ class Screen
   
   void gameOver()
   {
-    
+    background(0);
+    text("GAME OVER.",0,cellSize);
   }
   
   void highScore()

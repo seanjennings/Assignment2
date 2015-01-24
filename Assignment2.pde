@@ -16,7 +16,7 @@ ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 boolean[] keys = new boolean[526];
 PGraphics buffer;
-PImage img;
+PImage img, rover;
 
 float startTime;
 float stopTime;
@@ -24,6 +24,7 @@ float now;
 float distanceCovered;
 int health;
 int cellSize;
+int playerSize;
 int x_spd_mod;
 int y_spd_mod;
 
@@ -41,6 +42,7 @@ void setup()
   //size(1280,1024);
   size(600,400);
   cellSize = (int)width/30;
+  playerSize = cellSize*4;
   x_spd_mod = width/600;
   y_spd_mod = height/400;
 
@@ -58,6 +60,7 @@ void setup()
   textFont(font);
   
   buffer = createGraphics(width, height);
+  rover = loadImage("rover.png");
   startTime = millis();
   
   setUpScreen();
@@ -78,7 +81,7 @@ void draw()
   {
     //Splash
     case 1:
-    screen.splash();
+      screen.splash();
       break;
     //Scoreboard
     case 2:
@@ -89,6 +92,7 @@ void draw()
       break;
     //Game Over
     case 4:
+      screen.gameOver();
       break;
     //High Score
     case 5:
@@ -123,9 +127,9 @@ void displayData()
 {
   fill(255);
   text("Time: "+(int)now/1000+"secs",cellSize,cellSize);
-  text("Distance: "+(int)distanceCovered/cellSize+"m",cellSize,50);
+  text("Distance: "+(int)distanceCovered/cellSize+"m",cellSize,cellSize*2);
   fill(0,255,0);
-  text("Health: "+health+"%",cellSize,80);
+  text("Health: "+health+"%",cellSize,cellSize*3);
 }
 
 void createStars()

@@ -46,7 +46,7 @@ class Obstacle
   boolean collision()
   {
     // Its easier to check if they DONT colide
-    if (pl.x + cellSize < pos.x)
+    if (pl.x + playerSize < pos.x)
     {
       return false;
     }
@@ -60,7 +60,7 @@ class Obstacle
       return false;
     }
     
-    if (pl.y + cellSize < pos.y)
+    if (pl.y + playerSize < pos.y)
     {
       return false;
     }
