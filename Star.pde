@@ -48,6 +48,13 @@ class Star
     {
       health+=(int)random(0,5);
     }
+    sound();
     return true;
+  }
+  
+  void sound()
+  {
+    healthup.rewind();
+    healthup.play();
   }
 }

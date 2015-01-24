@@ -53,6 +53,12 @@ class Player
     }
     if(checkKey(up))
     {
+      sound();
+      if(y_speed == 0)
+      {
+        jump.rewind();
+        jump.play();
+      }
       players.get(0).jump();
     }
     stepSize = players.get(0).doplayer();
@@ -121,6 +127,11 @@ class Player
     return x_speed*x_spd_mod;
   }
   
+  void sound()
+  {
+    
+  }
+  
   void drawplayer()
   {
     buffer.stroke(240,0,0);
@@ -131,4 +142,3 @@ class Player
   }
   
 }
-PVector pl = new PVector();

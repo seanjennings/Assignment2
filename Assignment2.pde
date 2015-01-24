@@ -5,8 +5,10 @@ PFont font;
 
 float floorY;
 float playerX;
+PVector pl = new PVector();
 
 VisibleBoard board;
+Screen screen;
 ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Block> blocks = new ArrayList<Block>();
 ArrayList<Star> stars = new ArrayList<Star>();
@@ -25,6 +27,15 @@ int cellSize;
 int x_spd_mod;
 int y_spd_mod;
 
+int gameState;
+
+import ddf.minim.*;
+Minim minim = new Minim(this);
+AudioSnippet jump;
+AudioSnippet hit;
+AudioSnippet healthup;
+
+
 void setup()
 {
   //size(1280,1024);
@@ -37,6 +48,10 @@ void setup()
   background(0);
   setUpPlayerControllers();
   
+  jump = minim.loadSnippet("jump.wav");
+  hit = minim.loadSnippet("hit.wav");
+  healthup = minim.loadSnippet("healthup.wav");
+  
   board = new VisibleBoard();  
   offset = 0;
   font = createFont("verdana",14);
@@ -45,18 +60,45 @@ void setup()
   buffer = createGraphics(width, height);
   startTime = millis();
   
+  setUpScreen();
   health=100;
-  frameRate(30);
+  gameState=1;
+  frameRate(60);
 }
 
 void draw()
 {
+  /*
   //Block Object Counter
   print("s: "+stars.size()+"\n");
   print("o: "+obstacles.size()+"\n");
   print("p: "+players.size()+"\n");
-  print("b: "+blocks.size()+"\n");
+  print("b: "+blocks.size()+"\n");*/
+  switch(gameState)
+  {
+    //Splash
+    case 1:
+    screen.splash();
+      break;
+    //Scoreboard
+    case 2:
+      break;
+    //Running
+    case 3:
+      runGame();
+      break;
+    //Game Over
+    case 4:
+      break;
+    //High Score
+    case 5:
+      break;
+  }
   
+}
+
+void runGame()
+{
   players.get(0).update();
   board.drawBoard();
   
@@ -74,7 +116,6 @@ void draw()
     o.display();
   }
   
-  frameRate(60);
   displayData();
 }
 
@@ -175,5 +216,16 @@ void setUpPlayerControllers()
     XML playerXML = children[i];
     players.add(new Player(width*.33, playerXML));
     playerX = width*.33;        
+  }
+}
+
+void setUpScreen()
+{
+  XML xml = loadXML("arcade.xml");
+  XML[] children = xml.getChildren("player");
+  
+  for(int i = 0 ; i < children.length ; i ++) {
+    XML playerXML = children[i];
+    screen = new Screen(playerXML);        
   }
 }

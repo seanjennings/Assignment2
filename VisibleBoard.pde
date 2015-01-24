@@ -35,9 +35,9 @@ class VisibleBoard
     int blockheight;
     blockheight = ((Block)blocks.get(blocks.size()-1)).h;
     
-    if (random(1) < .10)
+    if (random(1) < .5)
     {
-      if (random(1) < .6) 
+      if (random(1) < .5) 
       {
         if (blockheight > 1) blockheight--;
       } 

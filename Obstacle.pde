@@ -46,6 +46,13 @@ class Obstacle
     }
     // If none of the above then there is a collision
     health-=(int)random(0,20);
+    sound();
     return true;
+  }
+  
+  void sound()
+  {
+    hit.rewind();
+    hit.play();
   }
 }
