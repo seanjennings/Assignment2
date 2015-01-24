@@ -2,11 +2,21 @@ class Obstacle
 {
   PVector pos;
   color colour;
+  float[] vertx = new float[16];
+  float[] verty = new float[16];
   
   Obstacle(PVector pos, color colour)
   {
     this.pos=pos;
     this.colour=colour;
+    
+    for (int i = 0; i < 16; i++) {
+      // The vertices are generated radially
+      // A vertice is generated at an angle of 0 with a random distance from the center of the asteroid
+      // Then the next vertice is PI/8 radians rotated from the previous one and generated with a new random distance from the center
+      vertx[i] = sin(i*PI/8)*(cellSize + random(-cellSize/4, cellSize/4));
+      verty[i] = cos(i*PI/8)*(cellSize + random(-cellSize/4, cellSize/4));
+    }
   }
   
   void update()
@@ -20,7 +30,17 @@ class Obstacle
   {
     noStroke();
     fill(colour);
-    rect(pos.x,pos.y,cellSize,cellSize);
+    
+    translate(pos.x, pos.y);
+    
+    beginShape();
+    for (int i = 0; i < 16; i++) {
+      vertex(vertx[i], verty[i]);
+    }
+    vertex(vertx[0], verty[0]);
+    endShape();
+    
+    translate(-pos.x, -pos.y);
   }
   
   boolean collision()
