@@ -9,6 +9,7 @@ PVector pl = new PVector();
 
 VisibleBoard board;
 Screen screen;
+Score scoreboard;
 ArrayList<Player> players = new ArrayList<Player>();
 ArrayList<Block> blocks = new ArrayList<Block>();
 ArrayList<Star> stars = new ArrayList<Star>();
@@ -54,7 +55,8 @@ void setup()
   hit = minim.loadSnippet("hit.wav");
   healthup = minim.loadSnippet("healthup.wav");
   
-  board = new VisibleBoard();  
+  board = new VisibleBoard();
+  scoreboard = new Score();  
   offset = 0;
   font = createFont("verdana",14);
   textFont(font);
@@ -96,6 +98,7 @@ void draw()
       break;
     //High Score
     case 5:
+      screen.highScore();
       break;
   }
   

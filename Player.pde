@@ -119,7 +119,14 @@ class Player
         x_speed = 0;
         y_speed = -12;
         stopTime = millis();
-        gameState=4;
+        if(scoreboard.checkTop((int)distanceCovered/cellSize))
+        {
+          gameState = 5;
+        }
+        else
+        {
+          gameState=4;
+        }
       }
     }
     
