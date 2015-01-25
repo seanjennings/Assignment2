@@ -69,6 +69,8 @@ void setup()
   health=100;
   gameState=1;
   frameRate(60);
+  
+  scoreboard.tableUpdate();
 }
 
 void draw()
@@ -79,6 +81,7 @@ void draw()
   print("o: "+obstacles.size()+"\n");
   print("p: "+players.size()+"\n");
   print("b: "+blocks.size()+"\n");
+  
   switch(gameState)
   {
     //Splash

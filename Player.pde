@@ -121,6 +121,7 @@ class Player
         stopTime = millis();
         if(scoreboard.checkTop((int)distanceCovered/cellSize))
         {
+          scoreboard.table_add((int)distanceCovered/cellSize);
           gameState = 5;
         }
         else

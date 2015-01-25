@@ -9,22 +9,20 @@ class Score
   
     for (TableRow row : table.rows())
     {
-      String name = row.getString("name");
-      float score = row.getFloat("score");
+      float score = row.getInt("score");
     }
     
-    table.sort("score");  
+    table.sortReverse(int("score"));  
     saveTable(table, "data/table.csv");
   }
   
   //Add new entries to tables and call for updates
-  void table_add(String name, Float score)
+  void table_add(int score)
   {
     table = loadTable("table.csv", "header");
     
     TableRow newRow = table.addRow();
-    newRow.setString("name", name);
-    newRow.setFloat("score", score);
+    newRow.setInt("score", score);
     saveTable(table, "data/table.csv");
     
     tableUpdate();
