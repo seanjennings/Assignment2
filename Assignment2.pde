@@ -40,7 +40,7 @@ AudioSnippet healthup;
 void setup()
 {
   //size(1280,1024);
-  size(600,400);
+  size(1200,800);
   cellSize = (int)width/30;
   playerSize = cellSize*4;
   x_spd_mod = width/600;
@@ -71,12 +71,12 @@ void setup()
 
 void draw()
 {
-  /*
+  
   //Block Object Counter
   print("s: "+stars.size()+"\n");
   print("o: "+obstacles.size()+"\n");
   print("p: "+players.size()+"\n");
-  print("b: "+blocks.size()+"\n");*/
+  print("b: "+blocks.size()+"\n");
   switch(gameState)
   {
     //Splash
@@ -145,7 +145,8 @@ void createStars()
   
   for(int i=0;i<stars.size();i++)
   {
-    if(stars.get(i).collision() || stars.get(i).pos.y > height)
+    float thefloor = board.find_floor(stars.get(i).pos.x,cellSize);
+    if(stars.get(i).collision() || stars.get(i).pos.y > thefloor || stars.get(i).pos.y > height)
     {
       stars.remove(i);
     }
@@ -165,7 +166,8 @@ void createObstacles()
   
   for(int i=0;i<obstacles.size();i++)
   {
-    if(obstacles.get(i).collision() || obstacles.get(i).pos.y > height)
+    float thefloor = board.find_floor(obstacles.get(i).pos.x,cellSize);
+    if(obstacles.get(i).collision() || obstacles.get(i).pos.y > thefloor || obstacles.get(i).pos.y > height)
     {
       obstacles.remove(i);
     }

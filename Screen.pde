@@ -49,6 +49,8 @@ class Screen
   {
     background(0);
     text("GAME OVER.",0,cellSize);
+    text("Time: "+(int)stopTime/1000+"secs",0,cellSize*2);
+    text("Distance:"+(int)distanceCovered/cellSize+"m",0,cellSize*3);
   }
   
   void highScore()
