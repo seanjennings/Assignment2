@@ -17,7 +17,8 @@ ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 boolean[] keys = new boolean[526];
 PGraphics buffer;
-PImage img, rover;
+PImage img, rover, controls;
+PFont mars;
 
 float startTime;
 float stopTime;
@@ -28,6 +29,7 @@ int cellSize;
 int playerSize;
 int x_spd_mod;
 int y_spd_mod;
+int obstacleChance;
 
 int gameState;
 
@@ -37,11 +39,11 @@ AudioSnippet jump;
 AudioSnippet hit;
 AudioSnippet healthup;
 
-
 void setup()
 {
   //size(1280,1024);
-  size(600,400);
+  size(800,600);
+  //size(1200,800);
   cellSize = (int)width/30;
   playerSize = cellSize*4;
   x_spd_mod = width/600;
@@ -55,17 +57,23 @@ void setup()
   hit = minim.loadSnippet("hit.wav");
   healthup = minim.loadSnippet("healthup.wav");
   
+  mars = createFont("marspolice_i.ttf",20);
+  textFont(mars);
+  
   board = new VisibleBoard();
   scoreboard = new Score();  
   offset = 0;
-  font = createFont("verdana",14);
-  textFont(font);
+  //font = createFont("verdana",14);
+  //textFont(font);
   
   buffer = createGraphics(width, height);
   rover = loadImage("rover.png");
+  controls = loadImage("controls.png");
   startTime = millis();
   
   setUpScreen();
+  obstacleChance = 120;
+  distanceCovered=0;
   health=100;
   gameState=1;
   frameRate(60);
@@ -75,12 +83,12 @@ void setup()
 
 void draw()
 {
-  
+  /*
   //Block Object Counter
   print("s: "+stars.size()+"\n");
   print("o: "+obstacles.size()+"\n");
   print("p: "+players.size()+"\n");
-  print("b: "+blocks.size()+"\n");
+  print("b: "+blocks.size()+"\n");*/
   
   switch(gameState)
   {
@@ -136,8 +144,8 @@ void displayData()
   textSize(20);
   
   fill(255);
-  text("Time: "+(int)now/1000+"secs",cellSize,cellSize);
-  text("Distance: "+(int)distanceCovered/cellSize+"m",cellSize,cellSize*2);
+  text("Time: "+(int)now/1000+" secs",cellSize,cellSize);
+  text("Distance: "+(int)distanceCovered/cellSize+" m",cellSize,cellSize*2);
   color colour;
   float red;
   float green;
@@ -154,11 +162,13 @@ void displayData()
     //print("GREEN: "+green);
   }
   fill(colour);
-  text("Health: "+health+"%",cellSize,cellSize*3);
+  text("Health: "+health,cellSize,cellSize*3);
 }
 
 void createStars()
 {
+  int time = (int)now/1000;
+  
   if((int)random(0,520) == 0)
   {
     PVector p=new PVector();
@@ -180,7 +190,16 @@ void createStars()
 
 void createObstacles()
 {
-  if((int)random(0,120) == 0)
+  int time = (int)now/1000;
+  
+  
+  if(time%10 == 0 && obstacleChance > 5)
+  {
+    obstacleChance--;
+  }
+  print("obstacleChance: "+obstacleChance+"\n");
+  
+  if((int)random(0,obstacleChance) == 0)
   {
     PVector p=new PVector();
     p.x=(int)random(width*.33,width-cellSize);

@@ -37,10 +37,20 @@ class Screen
   void splash()
   {
     textAlign(CENTER, CENTER);
-    textSize(60*y_spd_mod);
-    text("PRESS START.",halfWidth,halfHeight-100*y_spd_mod);
-    smooth();
-    if(checkKey(up))
+    imageMode(CENTER);
+    
+    textSize(60*x_spd_mod);
+    fill(255);
+    text("CURIOUSITY",halfWidth,halfHeight-cellSize*6);
+    
+    textSize(30*x_spd_mod);
+    fill(0,255,0);
+    text("PRESS START",halfWidth,halfHeight-cellSize*2);
+    
+    image(controls,halfWidth,halfHeight+cellSize*6,(777/3)*x_spd_mod,(536/3)*y_spd_mod);
+    imageMode(CORNER);
+    
+    if(checkKey(start))
     {
       gameState=3;
     }
@@ -55,21 +65,36 @@ class Screen
   {
     background(0);
     textAlign(CENTER, CENTER);
-    textSize(50*y_spd_mod);
     
+    textSize(70*x_spd_mod);
     fill(255,0,0);
-    text("GAME OVER.",halfWidth,halfHeight-100*y_spd_mod);
+    text("GAME OVER.",halfWidth,halfHeight-cellSize*4);
     
+    textSize(50*x_spd_mod);
     fill(255);
-    text("Time: "+(int)stopTime/1000+"secs",halfWidth,halfHeight+50*y_spd_mod);
-    text("Distance:"+(int)distanceCovered/cellSize+"m",halfWidth,halfHeight+120*y_spd_mod);
+    text("Time: "+(int)stopTime/1000+" secs",halfWidth,halfHeight+cellSize*3);
+    text("Distance: "+(int)distanceCovered/cellSize+" m",halfWidth,halfHeight+cellSize*6);
+    
+    if(checkKey(start))
+    {
+      players.clear();
+      setup();
+      gameState=1;
+    }
   }
   
   void highScore()
   {
     background(0);
-    text("HIGH SCORE!",0,cellSize);
-    text("Time: "+(int)stopTime/1000+"secs",0,cellSize*2);
-    text("Distance:"+(int)distanceCovered/cellSize+"m",0,cellSize*3);
+    textAlign(CENTER, CENTER);
+    
+    textSize(70*x_spd_mod);
+    fill(0,255,0);
+    text("HIGH SCORE!",halfWidth,halfHeight-cellSize*4);
+    
+    textSize(50*x_spd_mod);
+    fill(255);
+    text("Time: "+(int)stopTime/1000+" secs",halfWidth,halfHeight+cellSize*3);
+    text("Distance: "+(int)distanceCovered/cellSize+" m",halfWidth,halfHeight+cellSize*6);
   }
 }
