@@ -50,10 +50,10 @@ class VisibleBoard
       blocks.remove(0); 
       return ((Block)blocks.get(blocks.size()-1)).w;
     } 
-    else if (random(1) < .2) 
+    else if (random(1) < .1) 
     {
       int i;
-      for(i=0;i<(int)random(4,8);i++)
+      for(i=0;i<(int)random(4,12);i++)
       {
         blocks.add(new Block(0,cellSize));
       }

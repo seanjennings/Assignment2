@@ -41,7 +41,7 @@ AudioSnippet healthup;
 void setup()
 {
   //size(1280,1024);
-  size(1200,800);
+  size(600,400);
   cellSize = (int)width/30;
   playerSize = cellSize*4;
   x_spd_mod = width/600;
@@ -86,6 +86,7 @@ void draw()
   {
     //Splash
     case 1:
+      board.drawBoard();
       screen.splash();
       break;
     //Scoreboard
@@ -131,10 +132,28 @@ void runGame()
 
 void displayData()
 {
+  textAlign(LEFT);
+  textSize(20);
+  
   fill(255);
   text("Time: "+(int)now/1000+"secs",cellSize,cellSize);
   text("Distance: "+(int)distanceCovered/cellSize+"m",cellSize,cellSize*2);
-  fill(0,255,0);
+  color colour;
+  float red;
+  float green;
+  if(health > 50)
+  {
+    red = (1.0f-(float(health)/100.0f)) * 255.0f * 2.0f;
+    colour = color(red,255,0);
+    //print("RED: "+red);
+  }
+  else
+  {
+    green = ((float(health)/100.0f)) * 255.0f * 2.0f;
+    colour = color(255,green,0);
+    //print("GREEN: "+green);
+  }
+  fill(colour);
   text("Health: "+health+"%",cellSize,cellSize*3);
 }
 
