@@ -129,16 +129,9 @@ class VisibleBoard
     buffer.beginDraw();
     buffer.background(0);
     board.displayboard(position,offset+100);
-    players.get(0).drawplayer();
-    if (players.get(0).dead == false) {
-      now = millis() - startTime;
-    } 
-    else if (millis() - stopTime > 3000)
+    if(players.size() > 0)
     {
-      startTime = millis();
-      distanceCovered = 0;
-      players.clear();
-      setUpPlayerControllers();
+      players.get(0).drawplayer();
     }
     
     buffer.endDraw();

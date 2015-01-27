@@ -48,4 +48,23 @@ class Score
     }
     return false;
   }
+  
+  int[] getScores()
+  {
+    table = loadTable("table.csv", "header");
+    int top[] = new int[5];
+    
+    int i=0;
+    for (TableRow row : table.rows())
+    {
+      float score = row.getFloat("score");
+      top[i] = (int)score;
+      i++;
+      if(i>4)
+      {
+        break;
+      }
+    }
+    return top;
+  }
 }

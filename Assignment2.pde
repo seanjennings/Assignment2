@@ -51,7 +51,7 @@ void setup()
 
   stroke(255);
   background(0);
-  setUpPlayerControllers();
+  //setUpPlayerControllers();
   
   jump = minim.loadSnippet("jump.wav");
   hit = minim.loadSnippet("hit.wav");
@@ -69,7 +69,6 @@ void setup()
   buffer = createGraphics(width, height);
   rover = loadImage("rover.png");
   controls = loadImage("controls.png");
-  startTime = millis();
   
   setUpScreen();
   obstacleChance = 120;
@@ -99,6 +98,7 @@ void draw()
       break;
     //Scoreboard
     case 2:
+      screen.scoreBoard();
       break;
     //Running
     case 3:
@@ -119,22 +119,13 @@ void draw()
 void runGame()
 {
   players.get(0).update();
+  //players.get(0).drawplayer();
+  
   board.drawBoard();
   
   createStars();
   createObstacles();
-  
-  for(Star s:stars)
-  {
-    s.update();
-    s.display();
-  }
-  for(Obstacle o:obstacles)
-  {
-    o.update();
-    o.display();
-  }
-  
+
   displayData();
 }
 
@@ -172,7 +163,7 @@ void createStars()
   if((int)random(0,520) == 0)
   {
     PVector p=new PVector();
-    p.x=(int)random(width*.33,width-cellSize);
+    p.x=(int)random(0,width-cellSize);
     p.y=0-cellSize;
     color c = color(255);
     stars.add(new Star(p,c));
@@ -186,23 +177,28 @@ void createStars()
       stars.remove(i);
     }
   }
+  
+  for(Star s:stars)
+  {
+    s.update();
+    s.display();
+  }
 }
 
 void createObstacles()
 {
   int time = (int)now/1000;
   
-  
-  if(time%10 == 0 && obstacleChance > 5)
+  if(time%10 == 0 && obstacleChance > 20 && players.size() > 0)
   {
     obstacleChance--;
   }
-  print("obstacleChance: "+obstacleChance+"\n");
+  //print("obstacleChance: "+obstacleChance+"\n");
   
   if((int)random(0,obstacleChance) == 0)
   {
     PVector p=new PVector();
-    p.x=(int)random(width*.33,width-cellSize);
+    p.x=(int)random(0,width);
     p.y=0-cellSize;
     color c = color(80,0,0);
     obstacles.add(new Obstacle(p,c));
@@ -215,6 +211,11 @@ void createObstacles()
     {
       obstacles.remove(i);
     }
+  }
+  for(Obstacle o:obstacles)
+  {
+    o.update();
+    o.display();
   }
 }
 

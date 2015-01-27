@@ -1,7 +1,5 @@
-class Obstacle
+class Obstacle extends FallingObject
 {
-  PVector pos;
-  color colour;
   float[] vertx = new float[16];
   float[] verty = new float[16];
   
@@ -21,9 +19,12 @@ class Obstacle
   
   void update()
   {
-    pos.x -= players.get(0).x_speed;
+    if(players.size() > 0)
+    {
+      pos.x -= players.get(0).x_speed;
+    }
 
-    pos.y+=1*(y_spd_mod);
+    pos.y+=1.5*(y_spd_mod);
   }
   
   void display()
@@ -65,9 +66,13 @@ class Obstacle
       return false;
     }
     // If none of the above then there is a collision
-    health-=(int)random(0,20);
-    sound();
-    return true;
+    if(players.size() > 0)
+    {
+      health-=(int)random(0,20);
+      sound();
+      return true;
+    }
+    return false;
   }
   
   void sound()

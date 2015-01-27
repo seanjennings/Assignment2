@@ -1,8 +1,5 @@
-class Star
+class Star extends FallingObject
 {
-  PVector pos;
-  color colour;
-  float theta;
   int points=(int)random(5,10);
   float radius=random(15,20)*width/600;
   
@@ -15,8 +12,12 @@ class Star
   
   void update()
   {
-    pos.x -= players.get(0).x_speed;
-    pos.y+=1*(y_spd_mod);
+     if(players.size() > 0)
+     {
+       pos.x -= players.get(0).x_speed;
+     }
+    
+    pos.y+=3*(y_spd_mod);
     theta+=0.01f;
   }
   
@@ -77,12 +78,16 @@ class Star
       return false;
     }
     // If none of the above then there is a collision
-    if(health<100)
+    if(players.size() > 0)
     {
-      health+=points;
+      if(health<100)
+      {
+        health+=points;
+      }
+      sound();
+      return true;
     }
-    sound();
-    return true;
+    return false;
   }
   
   void sound()

@@ -61,6 +61,12 @@ class Player
       }
       players.get(0).jump();
     }
+    
+    if (players.get(0).dead == false) {
+      now = millis() - startTime;
+      print((int)now/1000+"\n");
+    } 
+    
     stepSize = players.get(0).doplayer();
     distanceCovered += stepSize;
   }
