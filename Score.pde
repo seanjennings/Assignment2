@@ -17,7 +17,7 @@ class Score
   }
   
   //Add new entries to tables and call for updates
-  void table_add(int score)
+  void tableAdd(int score)
   {
     table = loadTable("table.csv", "header");
     
@@ -28,6 +28,7 @@ class Score
     tableUpdate();
   }
   
+  //Test if a score passed in is a high score
   boolean checkTop(int test)
   {
     table = loadTable("table.csv", "header");
@@ -49,6 +50,7 @@ class Score
     return false;
   }
   
+  //Retreive Top 5 scores
   int[] getScores()
   {
     table = loadTable("table.csv", "header");

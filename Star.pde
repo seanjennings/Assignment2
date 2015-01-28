@@ -1,7 +1,7 @@
 class Star extends FallingObject
 {
   int points=(int)random(5,10);
-  float radius=random(15,20)*width/600;
+  float radius=random(15,20)*xScalar;
   
   Star(PVector pos, color colour)
   {
@@ -12,19 +12,21 @@ class Star extends FallingObject
   
   void update()
   {
+    //Modify by minus the players speed, if they exist
      if(players.size() > 0)
      {
-       pos.x -= players.get(0).x_speed;
+       pos.x -= players.get(0).xSpeed;
      }
     
-    pos.y+=3*(y_spd_mod);
+    //Speed application and rotation angle increase
+    pos.y+=3*(yScalar);
     theta+=0.01f;
   }
   
   void display()
   {
     stroke(colour);
-    //rect(pos.x,pos.y,cellSize,cellSize);
+    
     pushMatrix();
     translate(pos.x, pos.y);
     rotate(theta);
@@ -34,6 +36,7 @@ class Star extends FallingObject
     float theta1 = 0;
     float thetaInc = TWO_PI / (points * 2);
     
+    //Loop for star vertices
     for(int i = 0 ; i < (points * 2) ; i ++)
     {
       theta1 += thetaInc;
@@ -87,7 +90,7 @@ class Star extends FallingObject
       sound();
       return true;
     }
-    return false;
+    return false; //Screen backdrop case with no players spawned
   }
   
   void sound()

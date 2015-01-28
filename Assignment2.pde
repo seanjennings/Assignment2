@@ -1,12 +1,4 @@
-int offset;
-float stepSize;
-float position;
-PFont font;
-
-float floorY;
-float playerX;
-PVector pl = new PVector();
-
+//Objects & Array lists
 VisibleBoard board;
 Screen screen;
 Score scoreboard;
@@ -16,10 +8,23 @@ ArrayList<Star> stars = new ArrayList<Star>();
 ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
 
 boolean[] keys = new boolean[526];
+
+//Graphics
 PGraphics buffer;
 PImage img, rover, controls;
 PFont mars;
 
+//Audio
+import ddf.minim.*;
+Minim minim = new Minim(this);
+AudioSnippet jump;
+AudioSnippet hit;
+AudioSnippet healthup;
+
+int offset;
+float stepSize;
+float position;
+float floorY;
 float startTime;
 float stopTime;
 float now;
@@ -27,68 +32,64 @@ float distanceCovered;
 int health;
 int cellSize;
 int playerSize;
-int x_spd_mod;
-int y_spd_mod;
+int xScalar;
+int yScalar;
 int obstacleChance;
-
 int gameState;
-
-import ddf.minim.*;
-Minim minim = new Minim(this);
-AudioSnippet jump;
-AudioSnippet hit;
-AudioSnippet healthup;
+PVector pl = new PVector();
 
 void setup()
 {
+  //Screen Sizes
   //size(1280,1024);
   size(800,600);
-  //size(1200,800);
+  
+  //Scaling variables setup
   cellSize = (int)width/30;
   playerSize = cellSize*4;
-  x_spd_mod = width/600;
-  y_spd_mod = height/400;
-
-  stroke(255);
-  background(0);
-  //setUpPlayerControllers();
+  xScalar = width/600;
+  yScalar = height/400;
   
-  jump = minim.loadSnippet("jump.wav");
-  hit = minim.loadSnippet("hit.wav");
-  healthup = minim.loadSnippet("healthup.wav");
-  
+  //Font setup
   mars = createFont("marspolice_i.ttf",20);
   textFont(mars);
   
   board = new VisibleBoard();
   scoreboard = new Score();  
-  offset = 0;
-  //font = createFont("verdana",14);
-  //textFont(font);
   
+  //Audio Loading
+  jump = minim.loadSnippet("jump.wav");
+  hit = minim.loadSnippet("hit.wav");
+  healthup = minim.loadSnippet("healthup.wav");
+  //Image Loading
   buffer = createGraphics(width, height);
   rover = loadImage("rover.png");
   controls = loadImage("controls.png");
   
+  //Initialisation
+  offset = 0;
   setUpScreen();
   obstacleChance = 120;
   distanceCovered=0;
   health=100;
   gameState=1;
-  frameRate(60);
   
-  scoreboard.tableUpdate();
+  background(0);
+  frameRate(60);
 }
 
 void draw()
 {
   /*
+  //Bug Testing
   //Block Object Counter
   print("s: "+stars.size()+"\n");
   print("o: "+obstacles.size()+"\n");
   print("p: "+players.size()+"\n");
-  print("b: "+blocks.size()+"\n");*/
+  print("b: "+blocks.size()+"\n");
+  */
   
+  /* Switch Statement for game states */
   switch(gameState)
   {
     //Splash
@@ -96,18 +97,22 @@ void draw()
       board.drawBoard();
       screen.splash();
       break;
+      
     //Scoreboard
     case 2:
       screen.scoreBoard();
       break;
+      
     //Running
     case 3:
       runGame();
       break;
+      
     //Game Over
     case 4:
       screen.gameOver();
       break;
+      
     //High Score
     case 5:
       screen.highScore();
@@ -119,24 +124,30 @@ void draw()
 void runGame()
 {
   players.get(0).update();
-  //players.get(0).drawplayer();
   
   board.drawBoard();
   
-  createStars();
-  createObstacles();
+  if((int)now/1000 > 2)
+  {
+    createStars();
+    createObstacles();
+  }
 
   displayData();
 }
 
 void displayData()
 {
+  //Styling
   textAlign(LEFT);
-  textSize(20);
-  
+  textSize(20); 
   fill(255);
+  
+  //Display
   text("Time: "+(int)now/1000+" secs",cellSize,cellSize);
   text("Distance: "+(int)distanceCovered/cellSize+" m",cellSize,cellSize*2);
+  
+  //Slide Health colour from green to red
   color colour;
   float red;
   float green;
@@ -152,14 +163,14 @@ void displayData()
     colour = color(255,green,0);
     //print("GREEN: "+green);
   }
+  
   fill(colour);
   text("Health: "+health,cellSize,cellSize*3);
 }
 
 void createStars()
 {
-  int time = (int)now/1000;
-  
+  //Random Star Generator
   if((int)random(0,520) == 0)
   {
     PVector p=new PVector();
@@ -169,15 +180,17 @@ void createStars()
     stars.add(new Star(p,c));
   }
   
+  //Despawning management
   for(int i=0;i<stars.size();i++)
   {
-    float thefloor = board.find_floor(stars.get(i).pos.x,cellSize);
+    float thefloor = board.findFloor(stars.get(i).pos.x,cellSize);
     if(stars.get(i).collision() || stars.get(i).pos.y > thefloor || stars.get(i).pos.y > height)
     {
       stars.remove(i);
     }
   }
   
+  //Object Functions
   for(Star s:stars)
   {
     s.update();
@@ -189,12 +202,13 @@ void createObstacles()
 {
   int time = (int)now/1000;
   
+  //Increase obstacle spawn rate by narrowing rand choices - based on time blocks
   if(time%10 == 0 && obstacleChance > 20 && players.size() > 0)
   {
     obstacleChance--;
   }
-  //print("obstacleChance: "+obstacleChance+"\n");
   
+  //Random Star Generator
   if((int)random(0,obstacleChance) == 0)
   {
     PVector p=new PVector();
@@ -204,14 +218,17 @@ void createObstacles()
     obstacles.add(new Obstacle(p,c));
   }
   
+  //Despawning management
   for(int i=0;i<obstacles.size();i++)
   {
-    float thefloor = board.find_floor(obstacles.get(i).pos.x,cellSize);
+    float thefloor = board.findFloor(obstacles.get(i).pos.x,cellSize);
     if(obstacles.get(i).collision() || obstacles.get(i).pos.y > thefloor || obstacles.get(i).pos.y > height)
     {
       obstacles.remove(i);
     }
   }
+  
+  //Object Functions
   for(Obstacle o:obstacles)
   {
     o.update();
@@ -219,6 +236,7 @@ void createObstacles()
   }
 }
 
+/* Control Setup */
 void keyPressed() 
 {
   keys[keyCode] = true;
@@ -253,7 +271,6 @@ char buttonNameToKey(XML xml, String buttonName)
   {
     return DOWN;
   }
-  //.. Others to follow
   return value.charAt(0);  
 }
 
@@ -263,10 +280,10 @@ void setUpPlayerControllers()
   XML[] children = xml.getChildren("player");
   int gap = width / (children.length/* + 1*/);
   
-  for(int i = 0 ; i < children.length ; i ++) {
+  for(int i = 0 ; i < children.length ; i ++)
+  {
     XML playerXML = children[i];
-    players.add(new Player(width*.33, playerXML));
-    playerX = width*.33;        
+    players.add(new Player(width*.33, playerXML));       
   }
 }
 
@@ -275,7 +292,8 @@ void setUpScreen()
   XML xml = loadXML("arcade.xml");
   XML[] children = xml.getChildren("player");
   
-  for(int i = 0 ; i < children.length ; i ++) {
+  for(int i = 0 ; i < children.length ; i ++)
+  {
     XML playerXML = children[i];
     screen = new Screen(playerXML);        
   }

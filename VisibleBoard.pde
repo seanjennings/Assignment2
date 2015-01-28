@@ -22,11 +22,12 @@ class VisibleBoard
     }
   }
   
-  int stepforward() {
+  int stepforward()
+  {
     //Block Cleanup
     for(int i=0;i<blocks.size();i++)
     {
-      if(blocks.get(i).block_x < 0-(blocks.get(i).w)*4)
+      if(blocks.get(i).blockX < 0-(blocks.get(i).w)*4)
       {
         blocks.remove(i);
       }
@@ -49,25 +50,26 @@ class VisibleBoard
       blocks.add(new Block(blockheight,cellSize));
       blocks.remove(0); 
       return ((Block)blocks.get(blocks.size()-1)).w;
-    } 
+    }
+    
+    //Gaps in Course, 6 - 12 cells wide
     else if (random(1) < .1) 
     {
       int i;
-      for(i=0;i<(int)random(4,12);i++)
+      for(i=0;i<(int)random(6,12);i++)
       {
         blocks.add(new Block(0,cellSize));
       }
       blocks.add(new Block(blockheight,cellSize));
       blocks.remove(0);
       return (cellSize*i)+cellSize;
-    } 
+    }
     else 
     {
       blocks.add(new Block(blockheight,cellSize));
       blocks.remove(0);
       return ((Block)blocks.get(blocks.size()-1)).w;
     }
-    //return the width of the right-most block
   }
   
   void displayboard(float position,int offset)
@@ -84,37 +86,36 @@ class VisibleBoard
     }
   }
   
-  int widthoflastblock() {
+  int widthoflastblock()
+  {
     return ((Block)blocks.get(0)).w;
   }
   
-  float find_floor(float x1, float w)
+  float findFloor(float x1, float w)
   {  
-    //the purpose of this function is to find the highest point
-    //between x and x+w (those represent the feet of the character)
+    //Find the highest point
+    //between x and x+w (base of player)
     x1 -= 100;
     float x2 = x1+w;
-    float the_floor = height*2;
+    float theFloor = height*2;
+    
     Block block;
     int x=width+offset;
-    boolean show = false;
-    if (random(1) > .98) show = true;
     
     for (int i=(blocks.size()-1);i>1;i--)
     {
       block = (Block)blocks.get(i);
       
-      //falls off a forward edge too soon
-      //  if ((x >= x1) && (x <= x2)) {
-      // x - start of square
-      if (((x >= x1-block.w) && (x <= x2))) {
-        if (block.top_y < the_floor) {
-          the_floor = block.top_y;
+      if (((x >= x1-block.w) && (x <= x2)))
+      {
+        if (block.topY < theFloor)
+        {
+          theFloor = block.topY;
         }
       }
       x = x-block.w;
     }
-    return the_floor;  
+    return theFloor; //return curret floor, relative to the player
   }
   
   void drawBoard()
@@ -127,8 +128,10 @@ class VisibleBoard
     }
     
     buffer.beginDraw();
+    
     buffer.background(0);
     board.displayboard(position,offset+100);
+    
     if(players.size() > 0)
     {
       players.get(0).drawplayer();
@@ -139,7 +142,5 @@ class VisibleBoard
     img = buffer.get(0, 0, buffer.width, buffer.height);
     image(img, 0, 0);
   }
-  
-  
 }
 

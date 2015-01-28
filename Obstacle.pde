@@ -1,30 +1,32 @@
 class Obstacle extends FallingObject
 {
-  float[] vertx = new float[16];
-  float[] verty = new float[16];
+  float[] vertX = new float[16];
+  float[] vertY = new float[16];
   
   Obstacle(PVector pos, color colour)
   {
     this.pos=pos;
     this.colour=colour;
     
-    for (int i = 0; i < 16; i++) {
-      // The vertices are generated radially
-      // A vertice is generated at an angle of 0 with a random distance from the center of the asteroid
-      // Then the next vertice is PI/8 radians rotated from the previous one and generated with a new random distance from the center
-      vertx[i] = sin(i*PI/8)*(cellSize + random(-cellSize/4, cellSize/4));
-      verty[i] = cos(i*PI/8)*(cellSize + random(-cellSize/4, cellSize/4));
+    for (int i = 0; i < 16; i++)
+    {
+      // Radial vertices
+      // Each vertice is PI/8 radians rotated from the previous one and generated with a new random distance from the center
+      vertX[i] = sin(i*PI/8)*(cellSize + random(-cellSize/4, cellSize/4));
+      vertY[i] = cos(i*PI/8)*(cellSize + random(-cellSize/4, cellSize/4));
     }
   }
   
   void update()
   {
+    //Modify by minus the players speed, if they exist
     if(players.size() > 0)
     {
-      pos.x -= players.get(0).x_speed;
+      pos.x -= players.get(0).xSpeed;
     }
-
-    pos.y+=1.5*(y_spd_mod);
+    
+    //Speed application
+    pos.y+=1.5*(yScalar);
   }
   
   void display()
@@ -34,11 +36,13 @@ class Obstacle extends FallingObject
     
     translate(pos.x, pos.y);
     
+    //Draw obstacle polygon using the randomly genertaed vertices
     beginShape();
-    for (int i = 0; i < 16; i++) {
-      vertex(vertx[i], verty[i]);
+    for (int i = 0; i < 16; i++)
+    {
+      vertex(vertX[i], vertY[i]);
     }
-    vertex(vertx[0], verty[0]);
+    vertex(vertX[0], vertY[0]);
     endShape();
     
     translate(-pos.x, -pos.y);
@@ -72,7 +76,7 @@ class Obstacle extends FallingObject
       sound();
       return true;
     }
-    return false;
+    return false; //Screen backdrop case with no players spawned
   }
   
   void sound()

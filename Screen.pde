@@ -24,6 +24,7 @@ class Screen
   
   Screen(XML xml)
   {
+    //Screen Controls Loading
     this( buttonNameToKey(xml, "up")
         , buttonNameToKey(xml, "down")
         , buttonNameToKey(xml, "left")
@@ -42,27 +43,28 @@ class Screen
     textAlign(CENTER, CENTER);
     imageMode(CENTER);
     
-    textSize(60*x_spd_mod);
+    textSize(60*xScalar);
     fill(255);
     text("CURIOUSITY",halfWidth,halfHeight-cellSize*6);
     
-    textSize(30*x_spd_mod);
+    textSize(30*xScalar);
     fill(0,255,0);
     text("PRESS Q TO START",halfWidth,halfHeight-cellSize*3);
-    textSize(20*x_spd_mod);
+    textSize(20*xScalar);
     fill(255,215,0);
     text("PRESS E FOR SCOREBOARD",halfWidth,halfHeight-cellSize);
     
-    textSize(15*x_spd_mod);
+    textSize(15*xScalar);
     fill(255,0,0);
-    text("AVOID ASTEROIDS",halfWidth,halfHeight+cellSize*2);
+    text("AVOID ASTEROIDS",halfWidth,halfHeight+cellSize*1);
     fill(255);
-    text("COLLECT STARS",halfWidth,halfHeight+cellSize*3);
+    text("COLLECT STARS",halfWidth,halfHeight+cellSize*2);
     
     
-    image(controls,halfWidth,halfHeight+cellSize*8,(777/3)*x_spd_mod,(536/3)*y_spd_mod);
+    image(controls,halfWidth,halfHeight+cellSize*7,(777/3)*xScalar,(536/3)*yScalar);
     imageMode(CORNER);
     
+    //Begin game
     if(checkKey(start))
     {
       obstacles.clear();
@@ -71,6 +73,8 @@ class Screen
       startTime = millis();
       gameState=3;
     }
+    
+    //Display High Scores
     if(checkKey(button1))
     {
       obstacles.clear();
@@ -91,21 +95,22 @@ class Screen
     
     textAlign(CENTER, CENTER);
     
-    textSize(20*x_spd_mod);
+    textSize(20*xScalar);
     fill(0,255,0);
     text("PRESS R TO RETURN",halfWidth, cellSize);
     
-    textSize(100*x_spd_mod);
+    textSize(100*xScalar);
     fill(255);
     text("TOP SCORES",halfWidth, cellSize*4);
     
     for (int i=0;i<5;i++)
     {
       fill(255,215-30*i,0);
-      textSize((70-5*i)*x_spd_mod);
+      textSize((70-5*i)*xScalar);
       text(""+display[i],halfWidth,cellSize*8+cellSize*3*i);
     }
     
+    //Return to main menu
     if(checkKey(button2))
     {
       obstacles.clear();
@@ -124,17 +129,18 @@ class Screen
     createObstacles();
     textAlign(CENTER, CENTER);
     
-    textSize(70*x_spd_mod);
+    textSize(70*xScalar);
     fill(255,0,0);
     text("GAME OVER.",halfWidth,halfHeight-cellSize*4);
-    textSize(30*x_spd_mod);
+    textSize(30*xScalar);
     text("PRESS Q TO RESTART",halfWidth,halfHeight-cellSize);
     
-    textSize(50*x_spd_mod);
+    textSize(50*xScalar);
     fill(255);
     text("Time: "+(int)stopTime/1000+" secs",halfWidth,halfHeight+cellSize*3);
     text("Distance: "+(int)distanceCovered/cellSize+" m",halfWidth,halfHeight+cellSize*6);
     
+    //Return to main menu
     if(checkKey(start))
     {
       players.clear();
@@ -155,17 +161,18 @@ class Screen
     createObstacles();
     textAlign(CENTER, CENTER);
     
-    textSize(70*x_spd_mod);
+    textSize(70*xScalar);
     fill(0,255,0);
     text("HIGH SCORE!",halfWidth,halfHeight-cellSize*4);
-    textSize(30*x_spd_mod);
+    textSize(30*xScalar);
     text("PRESS Q TO RESTART",halfWidth,halfHeight-cellSize);
     
-    textSize(50*x_spd_mod);
+    textSize(50*xScalar);
     fill(255);
     text("Time: "+(int)stopTime/1000+" secs",halfWidth,halfHeight+cellSize*3);
     text("Distance: "+(int)distanceCovered/cellSize+" m",halfWidth,halfHeight+cellSize*6);
     
+    //Return to main menu
     if(checkKey(start))
     {
       obstacles.clear();

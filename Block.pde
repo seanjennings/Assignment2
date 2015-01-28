@@ -2,10 +2,10 @@ class Block
 {
   int h;
   int w;
-  int top_y;
-  int block_x;
+  int topY;
+  int blockX;
   int[] blocks;
-  int last_x;
+  int lastX;
   color colour;
   
   Block(int h, int w)
@@ -27,13 +27,13 @@ class Block
     }
     
     colour = color((int)random(75,85),0,0);
-    top_y = int(height-(height*h)/cellSize);
+    topY = int(height-(height*h)/cellSize);
   }
   
   int displayblock(int x)
   {  
     int i;
-    block_x = x;
+    blockX = x;
     
     for (i=19;i>=0;i--)
     {
@@ -46,11 +46,6 @@ class Block
         buffer.fill(colour);
         buffer.rect(x,y,w,blockheight);
       }
-    }
-    
-    if ((x+w > playerX) && (x < playerX + cellSize))
-    {
-      floorY = top_y;
     }
     
     return x+w;
